@@ -16,8 +16,8 @@ my_proc = fmwk.ana_processor()
 #for x in xrange(len(sys.argv)-1):
 #    my_proc.add_input_file(sys.argv[x+1])
 
-for x in xrange(199):
-  fname = '/Users/jhewes15/neutrino/nnbar/cosmics/larlite_mcinfo_{:02d}.root'.format(x)
+for x in xrange(193):
+  fname = '/uboone/data/users/uboonepro/mcc5.2_iit/v03_04_06/larlite_main/prodcosmics_uboone/528813_{}/larlite_mcinfo.root'.format(x)
   my_proc.add_input_file(fname)
 
 # Specify IO mode
