@@ -20,20 +20,33 @@ namespace larlite {
   bool Cosmic::analyze(storage_manager* storage) {
   
     auto ev_mct = storage->get_data<event_mctruth>("generator");
+    
+    int select = 1;
+    std::vector<mcpart> pions;
+
     for(auto const& mct : *ev_mct) {
-      int a = 0;
-      int b = 0;
-      for(auto const& mcp : mct.GetParticles()) {
-        if ( mcp.PdgCode() == 111 || mcp.PdgCode() == -111 ) {
-          a++;
-        } else if ( mcp.PdgCode() == 211 || mcp.PdgCode() == -211 ) {
-          b++;
+
+      for(auto const& mcp : mct.GetParticles())
+        if ( mcp.PdgCode() == 111 || mcp.PdgCode() == -111 || mcp.PdgCode() == 211 || mcp.PdgCode() == -211 )
+          pions.push_back(mcp);
+
+    }
+    
+    if ( pions.size() < 2 ) select = 0;
+    else std::cout << pions.size() << " pions detected!" << std::endl;/*{
+      
+      for ( int i = 1; i < pions.size(); i++ ) {
+        for ( int j = 0; j < i; j++ ) {
+          mcstep one = pions[i].Trajectory()[0];
+          mcstep two = pions[j].Trajectory()[0];
+          
+          double distance = sqrt(pow(one.X() - two.X(),2) + pow(one.Y() - two.Y(),2) + pow(one.Z() - two.Z(),2));
+          std::cout << distance << std::endl;
+          
         }
       }
-      if ( a + b > 0 ) {
-        std::cout << a << " neutral pions, " << b << " charged pions" << std::endl;
-      }
-    }
+      
+    }*/
     
     return true;
   }
