@@ -45,7 +45,6 @@ namespace larlite {
           if(mcs.MotherTrackID() == mother) seen = 1;
         }
         if(seen == 0){
-          std::cout << "Neutral pion found!" << std::endl;
           mothers.push_back(mcs.MotherTrackID());
           showers.push_back(mcs);
           p++;
@@ -56,13 +55,12 @@ namespace larlite {
     for(auto const& mct: *ev_mct){
       int pdg = mct.PdgCode();
       if(pdg == 211||pdg == -211){
-        std::cout << "Charged pion found!" << std::endl;
         tracks.push_back(mct);
         p++;
-      }p++;
+      };
     }
     
-    if(p > 2) std::cout << "We have a winner!" << std::endl;
+    if(p > 2) std::cout << "We have a winner! " << showers.size() << " neutral pions, " << tracks.size() << " charged pions." << std::endl;
     
     return true;
   }
