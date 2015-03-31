@@ -16,7 +16,8 @@
 #define LARLITE_COSMIC_H
 
 #include "Analysis/ana_base.h"
-#include "DataFormat/mctruth.h"
+#include "DataFormat/mcshower.h"
+#include "DataFormat/mctrack.h"
 
 namespace larlite {
   /**

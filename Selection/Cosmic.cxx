@@ -19,6 +19,8 @@ namespace larlite {
   
   bool Cosmic::analyze(storage_manager* storage) {
   
+    int p = 0;
+    
     auto ev_mcs = storage->get_data<event_mcshower>("mcreco");
     auto ev_mct = storage->get_data<event_mctrack>("mcreco");
     
@@ -30,6 +32,22 @@ namespace larlite {
       std::cout << "MCTrack pointer invalid! Exiting..." << std::endl;
       exit(1);
     }
+    
+    for(auto const& mcs : *ev_mcs){
+      int pdg = mcs.PdgCode();
+      if(pdg == 22){
+        pdg = mcs.MotherPdgCode();
+        if(pdg == 111) p++;
+      }
+    }
+    
+    for(auto const& mct: *ev_mct){
+      int pdg = mct.PdgCode();
+      if(pdg == 211||pdg == -211) p++;
+    }
+    
+    if(p > 2) std::cout << "We have a winner!" << std::endl;
+    
     /*
     int select = 1;
     std::vector<mcpart> pions;
