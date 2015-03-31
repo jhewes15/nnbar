@@ -18,7 +18,9 @@ namespace larlite {
   }
   
   bool Cosmic::analyze(storage_manager* storage) {
-  
+
+    std::vector<int> mothers;
+    
     int p = 0;
     
     auto ev_mcs = storage->get_data<event_mcshower>("mcreco");
@@ -34,10 +36,15 @@ namespace larlite {
     }
     
     for(auto const& mcs : *ev_mcs){
-      int pdg = mcs.PdgCode();
-      if(pdg == 22){
-        pdg = mcs.MotherPdgCode();
-        if(pdg == 111) p++;
+      if(mcs.PdgCode() == 22 && mcs.MotherPdgCode() == 111){
+        int seen = 0;
+        for(auto const& mother: mothers){
+          if(mcs.MotherTrackID() == mother) seen = 1;
+        }
+        if(seen == 0){
+          mothers.push_back(mcs.MotherTrackID());
+          p++;
+        }
       }
     }
     
@@ -47,34 +54,6 @@ namespace larlite {
     }
     
     if(p > 2) std::cout << "We have a winner!" << std::endl;
-    
-    /*
-    int select = 1;
-    std::vector<mcpart> pions;
-
-    for(auto const& mct : *ev_mct) {
-
-      for(auto const& mcp : mct.GetParticles())
-        if ( mcp.PdgCode() == 111 || mcp.PdgCode() == -111 || mcp.PdgCode() == 211 || mcp.PdgCode() == -211 )
-          pions.push_back(mcp);
-
-    }
-    
-    if ( pions.size() < 2 ) select = 0;
-    else std::cout << pions.size() << " pions detected!" << std::endl;{
-      
-      for ( int i = 1; i < pions.size(); i++ ) {
-        for ( int j = 0; j < i; j++ ) {
-          mcstep one = pions[i].Trajectory()[0];
-          mcstep two = pions[j].Trajectory()[0];
-          
-          double distance = sqrt(pow(one.X() - two.X(),2) + pow(one.Y() - two.Y(),2) + pow(one.Z() - two.Z(),2));
-          std::cout << distance << std::endl;
-          
-        }
-      }
-      
-    }*/
     
     return true;
   }
