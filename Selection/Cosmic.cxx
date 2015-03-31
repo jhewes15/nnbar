@@ -19,7 +19,10 @@ namespace larlite {
   
   bool Cosmic::analyze(storage_manager* storage) {
 
-    std::vector<int> mothers;
+    std::vector<mcshower> showers;
+    std::vector<mctrack> tracks;
+
+    std::vector<unsigned int> mothers;
     
     int p = 0;
     
@@ -42,7 +45,9 @@ namespace larlite {
           if(mcs.MotherTrackID() == mother) seen = 1;
         }
         if(seen == 0){
+          std::cout << "Neutral pion found!" << std::endl;
           mothers.push_back(mcs.MotherTrackID());
+          showers.push_back(mcs);
           p++;
         }
       }
@@ -50,7 +55,11 @@ namespace larlite {
     
     for(auto const& mct: *ev_mct){
       int pdg = mct.PdgCode();
-      if(pdg == 211||pdg == -211) p++;
+      if(pdg == 211||pdg == -211){
+        std::cout << "Charged pion found!" << std::endl;
+        tracks.push_back(mct);
+        p++;
+      }p++;
     }
     
     if(p > 2) std::cout << "We have a winner!" << std::endl;
