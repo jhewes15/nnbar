@@ -27,27 +27,23 @@ namespace larlite {
   class Cosmic : public ana_base{
   
   public:
-
-    /// Default constructor
+    
     Cosmic(){ _name="Cosmic"; _fout=0;}
-
-    /// Default destructor
     virtual ~Cosmic(){}
 
-    /** IMPLEMENT in Cosmic.cc!
-        Initialization method to be called before the analysis event loop.
-    */ 
     virtual bool initialize();
-
-    /** IMPLEMENT in Cosmic.cc! 
-        Analyze a data event-by-event  
-    */
     virtual bool analyze(storage_manager* storage);
-
-    /** IMPLEMENT in Cosmic.cc! 
-        Finalize method to be called after all events processed.
-    */
     virtual bool finalize();
+    
+    bool proximity(mcstep first, mcstep second){
+      
+      double x = first.X() - second.X();
+      double y = first.Y() - second.Y();
+      double z = first.Z() - second.Z();
+      double distance = sqrt(pow(x,2) + pow(y,2) + pow(z,2));
+      if(distance < 5) return 1;
+      else return 0;
+    }
 
   protected:
     
