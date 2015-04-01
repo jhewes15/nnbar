@@ -13,8 +13,8 @@ from larlite import larlite as fmwk
 my_proc = fmwk.ana_processor()
 
 # Set input root file
-#for x in xrange(193):
-for x in xrange(1):
+for x in xrange(193):
+#for x in xrange(1):
   fname = '/uboone/data/users/uboonepro/mcc5.2_iit/v03_04_06/larlite_main/prodcosmics_uboone/528813_{}/larlite_mcinfo.root'.format(x)
   if x != 36:
     my_proc.add_input_file(fname)

@@ -59,7 +59,7 @@ namespace larlite {
       }
     }
 
-    select(showers,tracks);
+    if(p > 1) select(showers,tracks);
     
     return true;
   }

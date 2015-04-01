@@ -45,17 +45,16 @@ namespace larlite {
       else return 0;
     }
     
-    bool energy(std::vector<mcshower> showers,std::vector<mctrack> tracks){
-      
+    double energy(std::vector<mcshower> showers,std::vector<mctrack> tracks){
+
       double e = 0;
       for(auto const& shower : showers) e = e + shower.MotherStart().E();
       for(auto const& track : tracks) e = e + track.Start().E();
-      if(e > 2 || e < 1) return 0;
-      else return 1;
+      return e;
     }
-    
+
     bool momentum(std::vector<mcshower> showers,std::vector<mctrack> tracks){
-      
+
       double p_x = 0;
       double p_y = 0;
       double p_z = 0;
@@ -70,14 +69,14 @@ namespace larlite {
         p_z = p_z + track.Start().Pz();
       }
       double p = sqrt(pow(p_x,2) + pow(p_y,2) + pow(p_z,2));
-      if(p < 0.1) return 0;
-      else return 1;
+      return p;
     }
     
     void select(std::vector<mcshower> showers,std::vector<mctrack> tracks){
       
       for(auto const& shower : showers){
         int is_nnbar = 1;
+        double e, p;
         bool test;
         std::vector<mcshower> selected_showers;
         std::vector<mctrack> selected_tracks;
@@ -96,12 +95,17 @@ namespace larlite {
           else if(pion.PdgCode() == -211) pi_minus++;
           else std::cout << "Weird, a selected track is not a charged pion :/" << std::endl;
         }
-        if(pi_plus != pi_minus) is_nnbar = 0;
-        test = energy(selected_showers,selected_tracks);
-        if(!test) is_nnbar = 0;
-        test = momentum(selected_showers,selected_tracks);
-        if(!test) is_nnbar = 0;
-        if(is_nnbar == 1) std::cout << "WE HAVE A WINNER!" << std::endl;
+        unsigned int pions = selected_showers.size() + selected_tracks.size();
+        if(pions > 1){
+          std::cout << "Pions " << pions << "\tPi+ " << pi_plus << "\tPi- " << pi_minus << "\tPi0 " << selected_showers.size() << "\t";
+          if(pi_plus != pi_minus) is_nnbar = 0;
+          test = energy(selected_showers,selected_tracks);
+          if(!test) is_nnbar = 0;
+          test = momentum(selected_showers,selected_tracks);
+          if(!test) is_nnbar = 0;
+          std::cout << std::endl;
+          if(is_nnbar == 1) std::cout << "WE HAVE A WINNER!" << std::endl;
+        }
       }
     
       for(auto const& track : tracks){
@@ -124,12 +128,17 @@ namespace larlite {
           else if(pion.PdgCode() == -211) pi_minus++;
           else std::cout << "Weird, a selected track is not a charged pion :/" << std::endl;
         }
-        if(pi_plus != pi_minus) is_nnbar = 0;
-        test = energy(selected_showers,selected_tracks);
-        if(!test) is_nnbar = 0;
-        test = momentum(selected_showers,selected_tracks);
-        if(!test) is_nnbar = 0;
-        if(is_nnbar == 1) std::cout << "WE HAVE A WINNER!" << std::endl;
+        unsigned int pions = selected_showers.size() + selected_tracks.size();
+        if(pions > 1){
+          std::cout << "Pions " << pions << "\tPi+ " << pi_plus << "\tPi- " << pi_minus << "\tPi0 " << selected_showers.size() << "\t";
+          if(pi_plus != pi_minus) is_nnbar = 0;
+          test = energy(selected_showers,selected_tracks);
+          if(!test) is_nnbar = 0;
+          test = momentum(selected_showers,selected_tracks);
+          if(!test) is_nnbar = 0;
+          std::cout << std::endl;
+          if(is_nnbar == 1) std::cout << "WE HAVE A WINNER!" << std::endl;
+        }
       }
     }
 
