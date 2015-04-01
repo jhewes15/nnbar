@@ -19,7 +19,8 @@ namespace larlite {
   
   bool Cosmic::analyze(storage_manager* storage) {
 
-    std::vector<data_base> pions;
+    std::vector<mcshower> showers;
+    std::vector<mctrack> tracks;
     std::vector<unsigned int> mothers;
     
     int p = 0;
@@ -44,7 +45,7 @@ namespace larlite {
         }
         if(seen == 0){
           mothers.push_back(mcs.MotherTrackID());
-          pions.push_back(mcs);
+          showers.push_back(mcs);
           p++;
         }
       }
@@ -53,15 +54,12 @@ namespace larlite {
     for(auto const& mct: *ev_mct){
       int pdg = mct.PdgCode();
       if(pdg == 211||pdg == -211){
-        pions.push_back(mct);
+        tracks.push_back(mct);
         p++;
-      };
+      }
     }
 
-    for(auto const& pion : pions){
-
-      std::cout << "I am " << bloop.data_type() << std::endl;
-    }
+    select(showers,tracks);
     
     return true;
   }
