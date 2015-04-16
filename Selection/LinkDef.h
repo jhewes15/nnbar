@@ -10,6 +10,10 @@
 #pragma link off all functions;
 
 #pragma link C++ class larlite::Cosmic+;
+#pragma link C++ class larlite::mcreco+;
+#pragma link C++ class larlite::mctruth+;
 //ADD_NEW_CLASS ... do not change this line
 #endif
+
+
 
