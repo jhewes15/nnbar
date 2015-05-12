@@ -19,8 +19,8 @@ namespace larlite {
   
   bool mcreco::analyze(storage_manager* storage) {
   
-    auto ev_mcs = storage->get_data<mcshower>("mcreco");
-    auto ev_mct = storage->get_data<mctrack>("mcreco");
+    auto ev_mcs = storage->get_data<event_mcshower>("mcreco");
+    auto ev_mct = storage->get_data<event_mctrack>("mcreco");
     
     // Loop over all showers, and grab only the gamma showers
     

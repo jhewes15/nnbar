@@ -16,6 +16,8 @@
 #define LARLITE_MCRECO_H
 
 #include "Analysis/ana_base.h"
+#include "DataFormat/mcshower.h"
+#include "DataFormat/mctrack.h"
 
 namespace larlite {
   /**

@@ -14,8 +14,12 @@ from larlite import larlite as fmwk
 my_proc = fmwk.ana_processor()
 
 # Set input root file
-for x in xrange(len(sys.argv)-1):
-    my_proc.add_input_file(sys.argv[x+1])
+# Set input root file
+#for x in xrange(193):
+for x in xrange(1):
+  fname = '/uboone/data/users/uboonepro/mcc5.2_iit/v03_04_06/larlite_main/prodcosmics_uboone/528813_{}/larlite_mcinfo.root'.format(x)
+  if x != 36:
+    my_proc.add_input_file(fname)
 
 # Specify IO mode
 my_proc.set_io_mode(fmwk.storage_manager.kREAD)
@@ -43,9 +47,7 @@ my_anaunit.SetTrackProducer(True,"mcreco");
 my_anaunit.SetVtxProducer(True,"generator");
 
 # Implement manager
-my_anaunit._mgr.SetAlgo(my_algo)
-my_anaunit._mgr.SetFilter(my_filter)
-my_anaunit._mgr.SetAna(my_ana)
+my_anaunit._mgr.SetAlgo(ERAlgomcreco)
 my_ana._mode =True # True = Select. False = Fill mode
 my_proc.add_process(my_anaunit)
 

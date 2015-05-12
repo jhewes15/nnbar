@@ -12,8 +12,11 @@
 #pragma link C++ class larlite::Cosmic+;
 #pragma link C++ class larlite::mcreco+;
 #pragma link C++ class larlite::mctruth+;
+#pragma link C++ class ertool::ERAlgomcreco+;
 //ADD_NEW_CLASS ... do not change this line
 #endif
+
+
 
 
 
