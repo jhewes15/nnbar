@@ -9,12 +9,11 @@
 #pragma link off all classes;
 #pragma link off all functions;
 
-#pragma link C++ class larlite::Cosmic+;
-#pragma link C++ class larlite::mcreco+;
-#pragma link C++ class larlite::mctruth+;
-#pragma link C++ class ertool::ERAlgomcreco+;
+#pragma link C++ class larlite::EvSel_mctruth+;
 //ADD_NEW_CLASS ... do not change this line
 #endif
+
+
 
 
 

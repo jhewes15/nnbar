@@ -1,9 +1,9 @@
 /**
- * \file Cosmic.h
+ * \file EvSel_mctruth.h
  *
  * \ingroup Selection
  * 
- * \brief Class def header for a class Cosmic
+ * \brief Class def header for a class EvSel_mctruth
  *
  * @author jhewes15
  */
@@ -12,8 +12,8 @@
 
     @{*/
 
-#ifndef LARLITE_COSMIC_H
-#define LARLITE_COSMIC_H
+#ifndef LARLITE_EVSEL_MCTRUTH_H
+#define LARLITE_EVSEL_MCTRUTH_H
 
 #include "Analysis/ana_base.h"
 #include "DataFormat/mcshower.h"
@@ -21,19 +21,23 @@
 
 namespace larlite {
   /**
-     \class Cosmic
+     \class EvSel_mctruth
      User custom analysis class made by SHELL_USER_NAME
    */
-  class Cosmic : public ana_base{
+
+  class EvSel_mctruth : public ana_base{
   
   public:
     
-    Cosmic(){ _name="Cosmic"; _fout=0;}
-    virtual ~Cosmic(){}
+    EvSel_mctruth(){ _name="EvSel_mctruth"; _fout=0;}
+    virtual ~EvSel_mctruth(){}
 
     virtual bool initialize();
     virtual bool analyze(storage_manager* storage);
     virtual bool finalize();
+
+    int loop_number;
+    int candidates;
     
     bool proximity(mcstep first,mcstep second){
       
@@ -72,7 +76,7 @@ namespace larlite {
       return p;
     }
     
-    void select(std::vector<mcshower> showers,std::vector<mctrack> tracks){
+    void select(std::vector<mcshower> showers,std::vector<mctrack> tracks,int* n_o_c){
       
       for(auto const& shower : showers){
         bool test;
@@ -86,7 +90,7 @@ namespace larlite {
           test = proximity(shower.MotherStart(),test_track.Start());
           if(test) selected_tracks.push_back(test_track);
         }
-        cut(selected_showers,selected_tracks);
+        if(cut(selected_showers,selected_tracks, n_o_c)==true) return;
       }
     
       for(auto const& track : tracks){
@@ -101,11 +105,11 @@ namespace larlite {
           test = proximity(track.Start(),test_track.Start());
           if(test) selected_tracks.push_back(test_track);
         }
-        cut(selected_showers,selected_tracks);
+        cut(selected_showers,selected_tracks, n_o_c);
       }
     }
     
-    void cut(std::vector<mcshower> showers,std::vector<mctrack> tracks){
+    bool cut(std::vector<mcshower> showers,std::vector<mctrack> tracks,int* n_o_c){
       bool is_nnbar = 1;
       double e, p;
       unsigned int pi_plus = 0;
@@ -120,13 +124,17 @@ namespace larlite {
       if(pions > 1){
         e = energy(showers,tracks);
         p = momentum(showers,tracks);
-        if (pi_plus != pi_minus || e < 1000 || e > 2000 || p > 300) is_nnbar = 0;
+        if (!(pi_plus == pi_minus || pi_plus - 1 == pi_minus) || e < 1000 || e > 2000 || p > 300) is_nnbar = 0;
         if(is_nnbar == 1){
           std::cout << "WE HAVE A WINNER!" << std::endl;
           std::cout << pions << " pions - " << pi_plus << " pi+, " << pi_minus << " pi-, " << pi_zero << "pi0" << std::endl;
           std::cout << e << "MeV energy, " << p << "MeV momentum" << std::endl;
+          std::cout << "Event vertex: " << showers[0].MotherStart().X() << "x, " << showers[0].MotherStart().Y() << "y, " << showers[0].MotherStart().Z() << "z" << std::endl;
+          (*n_o_c)++;
+          return true;
         }
       }
+      return false;
     }
 
   protected:

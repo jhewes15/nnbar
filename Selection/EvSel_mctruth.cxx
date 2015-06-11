@@ -1,11 +1,11 @@
-#ifndef LARLITE_COSMIC_CXX
-#define LARLITE_COSMIC_CXX
+#ifndef LARLITE_EVSEL_MCTRUTH_CXX
+#define LARLITE_EVSEL_MCTRUTH_CXX
 
-#include "Cosmic.h"
+#include "EvSel_mctruth.h"
 
 namespace larlite {
 
-  bool Cosmic::initialize() {
+  bool EvSel_mctruth::initialize() {
 
     //
     // This function is called in the beggining of event loop
@@ -14,10 +14,14 @@ namespace larlite {
     // here is a good place to create one on the heap (i.e. "new TH1D"). 
     //
 
+    loop_number = 1;
+    candidates = 0;
     return true;
   }
   
-  bool Cosmic::analyze(storage_manager* storage) {
+  bool EvSel_mctruth::analyze(storage_manager* storage) {
+
+    std::cout << "Event number: " << loop_number << std::endl;
 
     std::vector<mcshower> showers;
     std::vector<mctrack> tracks;
@@ -59,12 +63,14 @@ namespace larlite {
       }
     }
 
-    if(p > 1) select(showers,tracks);
-    
+    if(p > 1) select(showers,tracks,&candidates);
+
+    std::cout << std::endl;
+    loop_number++;
     return true;
   }
 
-  bool Cosmic::finalize() {
+  bool EvSel_mctruth::finalize() {
 
     // This function is called at the end of event loop.
     // Do all variable finalization you wish to do here.
@@ -78,7 +84,8 @@ namespace larlite {
     // else 
     //   print(MSG::ERROR,__FUNCTION__,"Did not find an output file pointer!!! File not opened?");
     //
-  
+
+    std::cout << "Number of candidate events in sample: " << candidates << std::endl;  
     return true;
   }
 

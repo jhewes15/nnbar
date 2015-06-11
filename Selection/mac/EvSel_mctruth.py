@@ -32,7 +32,7 @@ my_proc.set_io_mode(fmwk.storage_manager.kREAD)
 # Attach an analysis unit ... here we use a base class which does nothing.
 # Replace with your analysis unit if you wish.
 
-first_ana = fmwk.Cosmic()
+first_ana = fmwk.EvSel_mctruth()
 my_proc.add_process(first_ana)
 
 print
