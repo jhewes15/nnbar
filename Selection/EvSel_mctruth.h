@@ -129,7 +129,17 @@ namespace larlite {
           std::cout << "WE HAVE A WINNER!" << std::endl;
           std::cout << pions << " pions - " << pi_plus << " pi+, " << pi_minus << " pi-, " << pi_zero << "pi0" << std::endl;
           std::cout << e << "MeV energy, " << p << "MeV momentum" << std::endl;
-          std::cout << "Event vertex: " << showers[0].MotherStart().X() << "x, " << showers[0].MotherStart().Y() << "y, " << showers[0].MotherStart().Z() << "z" << std::endl;
+          int x, y ,z;
+          if (showers.size() > 0) {
+            x = showers[0].MotherStart().X();
+            y = showers[0].MotherStart().Y();
+            z = showers[0].MotherStart().Z();
+          } else {
+            x = tracks[0].Start().X();
+            y = tracks[0].Start().Y();
+            z = tracks[0].Start().Z();
+          }
+          std::cout << "Event vertex: " << x << "x, " << y << "y, " << z << "z" << std::endl;
           (*n_o_c)++;
           return true;
         }
