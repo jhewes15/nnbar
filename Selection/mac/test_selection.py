@@ -24,15 +24,19 @@ my_proc.set_io_mode(fmwk.storage_manager.kREAD)
 # Specify output root file name
 my_proc.set_ana_output_file("from_test_ana_you_can_remove_me.root")
 
-first_ana_unit = fmwk.ExampleERSelection()
-first_ana_unit._mgr.SetAlgo(ertool.AlgoPi0())
+ana_unit = fmwk.ERToolAnaBase()
+ana_unit._mgr.SetAlgo(ertool.AlgoEMPart())
+my_proc.add_process(ana_unit)
 
-second_ana_unit = fmwk.ExampleERSelection()
-second_ana_unit._mgr.SetAlgo(ertool.AlgoEMPart())
+#first_ana_unit = fmwk.ExampleERSelection()
+#first_ana_unit._mgr.SetAlgo(ertool.AlgoPi0())
+
+#second_ana_unit = fmwk.ExampleERSelection()
+#second_ana_unit._mgr.SetAlgo(ertool.AlgoEMPart())
 
 # Attach a template process
-my_proc.add_process(second_ana_unit)
-my_proc.add_process(first_ana_unit)
+#my_proc.add_process(second_ana_unit)
+#my_proc.add_process(first_ana_unit)
 
 print
 print  "Finished configuring ana_processor. Start event loop!"

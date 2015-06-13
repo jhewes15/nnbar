@@ -1,11 +1,11 @@
 import sys
 
-#if len(sys.argv) < 2:
-#    msg  = '\n'
-#    msg += "Usage 1: %s $INPUT_ROOT_FILE(s)\n" % sys.argv[0]
-#    msg += '\n'
-#    sys.stderr.write(msg)
-#    sys.exit(1)
+if len(sys.argv) < 2:
+    msg  = '\n'
+    msg += "Usage 1: %s $INPUT_ROOT_FILE(s)\n" % sys.argv[0]
+    msg += '\n'
+    sys.stderr.write(msg)
+    sys.exit(1)
 
 from ROOT import gSystem
 from ROOT import larlite as fmwk
@@ -16,12 +16,15 @@ ertool.Manager
 my_proc = fmwk.ana_processor()
 
 # Set input root file
-#for x in xrange(193):
-#for x in xrange(1):
-#  fname = '/uboone/data/users/uboonepro/mcc5.2_iit/v03_04_06/larlite_main/prodcosmics_uboone/528813_{}/larlite_mcinfo.root'.format(x)
-#  if x != 36:
-#    my_proc.add_input_file(fname)
-my_proc.add_input_file('/Users/jhewes15/neutrino/sandpit/2015/6_June/nnbar_larlite/larlite/larlite_mcinfo.root')
+files = []
+for x in xrange(len(sys.argv)-1):
+  fname = sys.argv[x+1]
+  if fname.endswith('.root'):
+    files.append(fname)
+
+for f in files:
+  my_proc.add_input_file(f)
+
 
 # Specify IO mode
 my_proc.set_io_mode(fmwk.storage_manager.kREAD)
