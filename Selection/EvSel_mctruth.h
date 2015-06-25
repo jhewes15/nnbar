@@ -105,7 +105,7 @@ namespace larlite {
           test = proximity(track.Start(),test_track.Start());
           if(test) selected_tracks.push_back(test_track);
         }
-        cut(selected_showers,selected_tracks, n_o_c);
+        if(cut(selected_showers,selected_tracks, n_o_c)) break;
       }
     }
     
@@ -124,7 +124,8 @@ namespace larlite {
       if(pions > 1){
         e = energy(showers,tracks);
         p = momentum(showers,tracks);
-        if (!(pi_plus == pi_minus || pi_plus - 1 == pi_minus) || e < 1000 || e > 2000 || p > 300) is_nnbar = 0;
+        //if (!(pi_plus == pi_minus || pi_plus - 1 == pi_minus) || e < 1000 || e > 2000 || p > 300) is_nnbar = 0;
+        if (!(pi_plus == pi_minus || pi_plus - 1)) is_nnbar=0;
         if(is_nnbar == 1){
           std::cout << "WE HAVE A WINNER!" << std::endl;
           std::cout << pions << " pions - " << pi_plus << " pi+, " << pi_minus << " pi-, " << pi_zero << "pi0" << std::endl;

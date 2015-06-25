@@ -11,8 +11,10 @@
 
 #pragma link C++ class larlite::EvSel_mctruth+;
 #pragma link C++ class larlite::EvSel_mcreco+;
+#pragma link C++ class larlite::EvInfo_mctruth+;
 //ADD_NEW_CLASS ... do not change this line
 #endif
+
 
 
 
