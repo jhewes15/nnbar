@@ -38,16 +38,15 @@ namespace larlite {
     virtual bool analyze(storage_manager* storage);
     virtual bool finalize();
     
-    bool CheckParticle(unsigned int track_id, std::vector<unsigned int> particles) {
+    bool CheckParticle(unsigned int track_id, std::vector<unsigned int> * particles) {
       bool seen = false;
-      for (auto const & particle : particles) {
+      for (auto const & particle : *particles) {
         if (particle == track_id) {
           seen = true;
-          break;
         }
       }
       if (seen == false) {
-        particles.push_back(track_id);
+        particles->push_back(track_id);
         return true;
       }
       else {
